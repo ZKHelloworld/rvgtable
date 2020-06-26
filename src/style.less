@@ -1,0 +1,28 @@
+@border-color: gray;
+
+.rvgt--container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border: 1px solid @border-color;
+}
+
+.rvgt--body {
+    flex-grow: 1;
+}
+
+.rvgt--body-grid {
+}
+
+.rvgt--body-td-head {
+    background-color: @border-color;
+}
+
+.rvgt--body-td {
+    white-space: nowrap;
+    border-right: 1px solid @border-color;
+    border-bottom: 1px solid @border-color;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
