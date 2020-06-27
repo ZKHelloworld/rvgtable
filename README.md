@@ -22,3 +22,51 @@ Rely on **vertical** and **horizontal** virtual scrolling feature of react-virtu
    ```
 
 ## API
+
+```
+const instance = new RVGTable(
+  $el, // dom element
+  options // Options
+);
+```
+
+### Instance Methods
+
+#### mount()
+
+Mount the table DOM to the `$el`.
+
+#### updateData(data: Array<Array<String>>)
+
+Update table instance's data.
+
+```
+const data = [
+  ['1:1', '1:2', '1:3'],
+  ['2:1', '2:2', '2:3'],
+  ['3:1', '3:2', '3:3'],
+]
+instance.updateData(data);
+```
+
+#### updateOptions(options)
+
+Update options.
+
+```
+const columns = ['column-1', 'column-2'];
+instance.updateOptions({ columns });
+```
+
+#### destroy()
+
+Destroy table instance.
+
+### Options
+
+```
+{
+    columns: Array<String>, // table head config, etc: ['column-1', 'column-2']
+    columnWidth: Number | Function, // detail: https://github.com/bvaughn/react-virtualized/blob/master/docs/Grid.md#prop-types
+}
+```

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Grid } from 'react-virtualized';
+import { Grid, ScrollSync } from 'react-virtualized';
 
 import './style.less';
 
-const DEFAULT_COLUMN_WIDTH = 100;
-const DEFAULT_ROW_HEIGHT = 30;
+const HEAD_HEIGHT = 30; // height of table head row
+const DEFAULT_COLUMN_WIDTH = 100; // width of each column
+const DEFAULT_ROW_HEIGHT = 30; // height of table body row
 
 export default class RVGTable extends Component {
     constructor(props) {
@@ -12,10 +13,12 @@ export default class RVGTable extends Component {
 
         this.state = {
             data: [[]],
-            options: this.props.options || {},
+            options: this.props.options || {
+                columns: [],
+            },
         };
 
-        this.body = React.createRef();
+        this.container = React.createRef();
         this.grid = React.createRef();
     }
 
@@ -43,50 +46,66 @@ export default class RVGTable extends Component {
         const value = this.state.data[rowIndex][columnIndex];
 
         return (
-            <div
-                className={`rvgt--body-td ${
-                    rowIndex === 0 ? 'rvgt--body-td-head' : ''
-                }`}
-                key={key}
-                style={style}
-                tip={value}
-            >
+            <div className="rvgt--body-td" key={key} style={style} tip={value}>
                 {value}
             </div>
         );
     };
 
-    columnRenderer = () => {
-        return <div class="rvgt--head-td"></div>;
+    columnRenderer = ({ columnIndex, key, style }) => {
+        const value = this.state.options.columns[columnIndex];
+        return (
+            <div className="rvgt--head-td" key={key} style={style}>
+                {value}
+            </div>
+        );
     };
 
     render() {
         const { data = [], options = {} } = this.state;
+        const { columns = [], ...restOptions } = options;
+
+        const width = this.container.current ? this.container.current.clientWidth : 0;
+        const columnWidth = restOptions.columnWidth || DEFAULT_COLUMN_WIDTH;
 
         return (
-            <div className="rvgt--container">
-                <div className="rvgt--body" ref={this.body}>
-                    <Grid
-                        className="rvgt--body-grid"
-                        ref={this.grid}
-                        cellRenderer={this.cellRenderer}
-                        columnCount={data[0].length}
-                        height={
-                            this.body.current
-                                ? this.body.current.clientHeight
-                                : 0
-                        }
-                        rowCount={data.length}
-                        width={
-                            this.body.current
-                                ? this.body.current.clientWidth
-                                : 0
-                        }
-                        columnWidth={DEFAULT_COLUMN_WIDTH}
-                        rowHeight={DEFAULT_ROW_HEIGHT}
-                        {...options}
-                    />
-                </div>
+            <div className="rvgt--container" ref={this.container}>
+                <ScrollSync>
+                    {({ onScroll, scrollLeft }) => (
+                        <>
+                            <Grid
+                                className="rvgt--head"
+                                cellRenderer={this.columnRenderer}
+                                width={width}
+                                height={HEAD_HEIGHT}
+                                rowCount={1}
+                                rowHeight={HEAD_HEIGHT}
+                                columnCount={columns.length}
+                                columnWidth={columnWidth}
+                                scrollLeft={scrollLeft}
+                                onScroll={onScroll}
+                            ></Grid>
+
+                            <Grid
+                                className="rvgt--body"
+                                ref={this.grid}
+                                cellRenderer={this.cellRenderer}
+                                width={width}
+                                height={
+                                    this.container.current
+                                        ? this.container.current.clientHeight
+                                        : 0
+                                }
+                                rowCount={data.length}
+                                rowHeight={DEFAULT_ROW_HEIGHT}
+                                columnCount={data[0].length}
+                                columnWidth={columnWidth}
+                                {...restOptions}
+                                onScroll={onScroll}
+                            ></Grid>
+                        </>
+                    )}
+                </ScrollSync>
             </div>
         );
     }

@@ -8,21 +8,27 @@
     border: 1px solid @border-color;
 }
 
+.rvgt--head {
+    flex-shrink: 0;
+    height: 30px;
+    overflow: hidden !important;
+}
+
 .rvgt--body {
     flex-grow: 1;
 }
 
-.rvgt--body-grid {
-}
-
-.rvgt--body-td-head {
-    background-color: @border-color;
-}
-
+.rvgt--head-td,
 .rvgt--body-td {
     white-space: nowrap;
     border-right: 1px solid @border-color;
     border-bottom: 1px solid @border-color;
     overflow: hidden;
     text-overflow: ellipsis;
+    box-sizing: border-box;
+}
+
+.rvgt--head-td {
+    height: 30px;
+    line-height: 30px;
 }
