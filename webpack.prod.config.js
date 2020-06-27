@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: './src/index.js',
-    mode: 'development',
+    mode: 'production',
     module: {
         rules: [
             {
@@ -22,7 +22,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist/'),
         publicPath: '/dist/',
-        filename: 'rvgtable.js',
+        filename: 'RVGTable.js',
         libraryTarget: 'umd',
         library: 'RVGTable'
     },

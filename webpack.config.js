@@ -2,7 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './demo/index.js',
+    entry: {
+        'RVGTable': './src/index.js',
+        'demo': './demo/index.js'
+    },
     mode: 'development',
     module: {
         rules: [
@@ -22,10 +25,12 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist/'),
         publicPath: '/dist/',
-        filename: 'rvgtable.js'
+        filename: '[name].js',
+        libraryTarget: 'umd',
+        library: '[name]'
     },
     devServer: {
-        contentBase: path.join(__dirname, 'public/'),
+        contentBase: path.join(__dirname, 'demo/'),
         port: 3000,
         publicPath: 'http://localhost:3000/dist/',
         hotOnly: true

@@ -1,6 +1,6 @@
 const INTERVAL = 100; // 10ms
 const COLUMNS = 300;
-const ROWS = 50;
+const ROWS = 300;
 
 let count = 0;
 function generateData() {
