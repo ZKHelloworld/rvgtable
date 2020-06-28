@@ -16,6 +16,7 @@ export default class RVGTable extends Component {
             options: this.props.options || {
                 columns: [],
             },
+            correntRowIndex: -1,
         };
 
         this.container = React.createRef();
@@ -46,7 +47,17 @@ export default class RVGTable extends Component {
         const value = this.state.data[rowIndex][columnIndex];
 
         return (
-            <div className="rvgt--body-td" key={key} style={style} tip={value}>
+            <div
+                className={`rvgt--body-td ${
+                    this.state.currentRowIndex === rowIndex
+                        ? 'rvgt--body-td_active'
+                        : ''
+                }`}
+                key={key}
+                style={style}
+                tip={value}
+                onMouseEnter={() => this.onMouseEnter(rowIndex)}
+            >
                 {value}
             </div>
         );
@@ -61,15 +72,31 @@ export default class RVGTable extends Component {
         );
     };
 
+    onMouseEnter = (rowIndex) => {
+      this.setState({
+        currentRowIndex: rowIndex
+      });
+    };
+
+    onMouseLeave = () => {
+      console.log('inin');
+
+      this.setState({
+        currentRowIndex: -1
+      })
+    };
+
     render() {
         const { data = [], options = {} } = this.state;
         const { columns = [], ...restOptions } = options;
 
-        const width = this.container.current ? this.container.current.clientWidth : 0;
+        const width = this.container.current
+            ? this.container.current.clientWidth
+            : 0;
         const columnWidth = restOptions.columnWidth || DEFAULT_COLUMN_WIDTH;
 
         return (
-            <div className="rvgt--container" ref={this.container}>
+            <div className="rvgt--container" ref={this.container} onMouseLeave={this.onMouseLeave}>
                 <ScrollSync>
                     {({ onScroll, scrollLeft }) => (
                         <>
