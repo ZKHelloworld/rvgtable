@@ -66,7 +66,7 @@ export default class RVGTable extends Component {
     columnRenderer = ({ columnIndex, key, style }) => {
         const value = this.state.options.columns[columnIndex];
         return (
-            <div className="rvgt--head-td" key={key} style={style}>
+            <div className="rvgt--head-td" key={key} style={style} onClick={e => this.onColumnClick(e, columnIndex)}>
                 {value}
             </div>
         );
@@ -79,16 +79,35 @@ export default class RVGTable extends Component {
     };
 
     onMouseLeave = () => {
-      console.log('inin');
-
       this.setState({
         currentRowIndex: -1
       })
     };
 
+    onColumnClick = (event, columnIndex) => {
+      const options = this.state.options || {};
+      event.persist()
+
+      const value = options.columns[columnIndex];
+      const param = {
+        index: columnIndex,
+        value
+      };
+
+      if (event.type === 'click') {
+        const { onColumnClick = () => {} } = options;
+        onColumnClick(event.nativeEvent, param);
+      } else if (event.type === 'contextmenu') {
+        event.preventDefault();
+
+        const { onColumnRightClick = () => {} } = options;
+        onColumnRightClick(event.nativeEvent, param);
+      }
+    };
+
     render() {
         const { data = [], options = {} } = this.state;
-        const { columns = [], ...restOptions } = options;
+        const { columns = [], emptyText = 'No Data', ...restOptions } = options;
 
         const width = this.container.current
             ? this.container.current.clientWidth
@@ -113,23 +132,28 @@ export default class RVGTable extends Component {
                                 onScroll={onScroll}
                             ></Grid>
 
-                            <Grid
-                                className="rvgt--body"
-                                ref={this.grid}
-                                cellRenderer={this.cellRenderer}
-                                width={width}
-                                height={
-                                    this.container.current
-                                        ? this.container.current.clientHeight
-                                        : 0
-                                }
-                                rowCount={data.length}
-                                rowHeight={DEFAULT_ROW_HEIGHT}
-                                columnCount={data[0].length}
-                                columnWidth={columnWidth}
-                                {...restOptions}
-                                onScroll={onScroll}
-                            ></Grid>
+                            {
+                              (!data || !data.length || !data[0] || !data[0].length) ?
+                              <div className="rvgt--empty">{ emptyText }</div>
+                              :
+                              <Grid
+                                  className="rvgt--body"
+                                  ref={this.grid}
+                                  cellRenderer={this.cellRenderer}
+                                  width={width}
+                                  height={
+                                      this.container.current
+                                          ? this.container.current.clientHeight
+                                          : 0
+                                  }
+                                  rowCount={data.length}
+                                  rowHeight={DEFAULT_ROW_HEIGHT}
+                                  columnCount={data[0].length}
+                                  columnWidth={columnWidth}
+                                  {...restOptions}
+                                  onScroll={onScroll}
+                              ></Grid>
+                            }
                         </>
                     )}
                 </ScrollSync>

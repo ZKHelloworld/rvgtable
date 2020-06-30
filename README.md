@@ -64,9 +64,47 @@ Destroy table instance.
 
 ### Options
 
+Options are directly passed as props to Grid Component.
+
+Most of [Grid Component's props](https://github.com/bvaughn/react-virtualized/blob/master/docs/Grid.md#prop-types) are supported.
+
 ```
 {
     columns: Array<String>, // table head config, etc: ['column-1', 'column-2']
-    columnWidth: Number | Function, // detail: https://github.com/bvaughn/react-virtualized/blob/master/docs/Grid.md#prop-types
+
+    cellRangeRenderer: Function,
+    cellRenderer: Function,
+    className: String,
+    columnCount: Number,
+    columnWidth: Number or Function,
+    containerProps: Object,
+    containerRole: string,
+    containerStyle: Object,
+    deferredMeasurementCache: CellMeasurer,
+    estimatedColumnSize: Number,
+    estimatedRowSize: Number,
+    height: Number,
+    id: String,
+    isScrolling: Boolean,
+    isScrollingOptOut: Boolean,
+    noContentRenderer: Function,
+    onSectionRendered: Function,
+    onScroll: Function,
+    onScrollbarPresenceChange: Function,
+    overscanColumnCount: Number,
+    overscanIndicesGetter: Function,
+    overscanRowCount: Number,
+    role: String,
+    rowCount: Number,
+    rowHeight: Number or Function,
+    scrollingResetTimeInterval: Number,
+    scrollLeft: Number,
+    scrollToAlignment: String,
+    scrollToColumn: Number,
+    scrollToRow: Number,
+    scrollTop: Number,
+    style: Object,
+    tabIndex: Number,
+    width: Number,
 }
 ```
