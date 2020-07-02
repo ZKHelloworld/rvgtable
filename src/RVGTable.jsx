@@ -55,7 +55,7 @@ export default class RVGTable extends Component {
                 }`}
                 key={key}
                 style={style}
-                tip={value}
+                title={value}
                 onMouseEnter={() => this.onMouseEnter(rowIndex)}
             >
                 {value}
@@ -76,12 +76,20 @@ export default class RVGTable extends Component {
       this.setState({
         currentRowIndex: rowIndex
       });
+
+      if (this.grid.current) {
+        this.grid.current.forceUpdate();
+      }
     };
 
     onMouseLeave = () => {
       this.setState({
         currentRowIndex: -1
-      })
+      });
+
+      if (this.grid.current) {
+        this.grid.current.forceUpdate();
+      }
     };
 
     onColumnClick = (event, columnIndex) => {
