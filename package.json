@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "less-loader": "^6.1.2",
+    "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-virtualized": "^9.21.2"

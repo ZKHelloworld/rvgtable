@@ -14,7 +14,10 @@ export default class {
     }
 
     mount() {
-        ReactDOM.render(<RVGTable ref={this.table} options={this.options} />, this.$dom);
+        ReactDOM.render(
+            <RVGTable ref={this.table} options={this.options} />,
+            this.$dom
+        );
     }
 
     updateData(data) {
@@ -26,6 +29,22 @@ export default class {
     updateOptions(options) {
         if (this.table.current) {
             this.table.current.updateOptions(options);
+        }
+    }
+
+    updateOption(key, value) {
+        if (this.table.current) {
+            this.table.current.updateOptions({
+                ...this.options,
+                [key]: value,
+            });
+        }
+    }
+
+    recomputeGridSize(columnIndex) {
+        if (this.table.current) {
+            this.table.current.head.current.recomputeGridSize(columnIndex);
+            this.table.current.grid.current.recomputeGridSize(columnIndex);
         }
     }
 

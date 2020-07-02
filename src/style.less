@@ -19,10 +19,12 @@
     flex-shrink: 0;
     height: 30px;
     overflow: hidden !important;
+    outline: none;
 }
 
 .rvgt--body {
     flex-grow: 1;
+    outline: none;
 }
 
 .rvgt--head-td,
@@ -41,4 +43,15 @@
 .rvgt--head-td {
     height: 30px;
     line-height: 30px;
+    user-select: none;
+}
+
+.rvgt--head-td-bar {
+    position: absolute;
+    right: 0px;
+    top: 0;
+    height: 100%;
+    z-index: 2;
+    padding: 0 5px;
+    cursor: ew-resize;
 }

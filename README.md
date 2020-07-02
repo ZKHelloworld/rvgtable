@@ -71,6 +71,7 @@ Most of [Grid Component's props](https://github.com/bvaughn/react-virtualized/bl
 ```
 {
     columns: Array<String>, // table head config, etc: ['column-1', 'column-2']
+    onColumnResize: Function, // column width resize callback
 
     cellRangeRenderer: Function,
     cellRenderer: Function,
